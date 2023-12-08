@@ -32,3 +32,4 @@ The script uses the WLED API to turn the LEDs on/off and set random effects duri
 It checks the current hour and, if it's between 5 PM and 6 AM, it turns the LEDs on and sets a random capacity, color, and effect.
 During the daytime, it turns the LEDs off.
 Feel free to customize the script further based on your preferences.
+The LED will update every 1 minute.
