@@ -17,7 +17,7 @@ set_wled() {
     local fx=$(get_fx)
     local fp=$(get_fp)
     for host in ${hosts[@]}; do
-        if [[ $hour -ge 19 && $hour -le 28 ]] || [[ $hour -ge 05 && $hour -le 06 ]]; then
+        if [[ $hour -ge 19 && $hour -le 20 ]] || [[ $hour -ge 05 && $hour -le 06 ]]; then
             curl -X POST "${host}/win&T=1&A=150&FX=$fx&FP=$fp" -H "Content-Type: application/x-www-form-urlencoded"
         else
             curl -X POST "${host}/win&T=0"
