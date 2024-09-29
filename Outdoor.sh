@@ -1,26 +1,29 @@
 #!/bin/bash
 
-getHour() {
+hosts=("http://192.168.1.23")
+
+get_hour() {
   echo $(date +%H)
 }
-
-getFX() {
+get_fx() {
   echo $((1 + RANDOM % 117))
 }
-
-getFP() {
+get_fp() {
   echo $((0 + RANDOM % 70))
 }
 
-currentHour=$(getHour)
-host="http://192.168.1.23"
+set_wled() {
+    local hour=$(get_hour)
+    local fx=$(get_fx)
+    local fp=$(get_fp)
+    for host in ${hosts[@]}; do
+        if [ $hour -ge 19 ] && [ $hour -lt 22 ]; then
+            curl -X POST "${host}/win&T=1&A=150&FX=$fx&FP=$fp" -H "Content-Type: application/x-www-form-urlencoded"
+        else
+            curl -X POST "${host}/win&T=0"
+            echo "WLED will be turned off during the daytime."
+        fi
+    done
+}
 
-if [ "$currentHour" -ge 17 ] || [ "$currentHour" -lt 6 ]; then
-  randomFX=$(getFX)
-  randomFP=$(getFP)
-  curl -X POST "$host/win&T=1"
-  curl -X POST "$host/win&A=150&FX=$randomFX&FP=$randomFP" -H "Content-Type: application/x-www-form-urlencoded"
-else
-  curl -X POST "$host/win&T=0"
-  echo "WLED will be turned off during the daytime."
-fi
+set_wled
